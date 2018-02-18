@@ -4,17 +4,10 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import java.io.IOException;
-import java.util.Optional;
 
 public class ScraperClient {
 
-    public Optional<Document> getDocument(String url) {
-        try {
-            Document value = Jsoup.connect(url).get();
-            return Optional.of(value);
-        } catch (IOException e) {
-            System.out.println("Error retrieving document: " + e.getMessage());
-        }
-        return Optional.empty();
+    public Document getDocument(String url) throws IOException {
+        return Jsoup.connect(url).get();
     }
 }

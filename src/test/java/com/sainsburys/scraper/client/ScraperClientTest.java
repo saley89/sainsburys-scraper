@@ -12,9 +12,9 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -40,17 +40,18 @@ public class ScraperClientTest {
         Document mockDocument = mock(Document.class);
         when(connection.get()).thenReturn(mockDocument);
 
-        Optional<Document> document = client.getDocument(URL);
+        Document document = client.getDocument(URL);
 
-        assertThat(document.isPresent()).isTrue();
+        assertThat(document).isEqualTo(mockDocument);
     }
 
     @Test
-    public void shouldReturnEmptyIfConnectionFails() throws IOException {
+    public void shouldThrowExceptionIfConnectionFails() throws IOException {
         when(connection.get()).thenThrow(new UnknownHostException(URL));
 
-        Optional<Document> document = client.getDocument(URL);
+        Throwable exception = catchThrowable(() -> client.getDocument(URL));
 
-        assertThat(document.isPresent()).isFalse();
+        assertThat(exception).isNotNull();
+        assertThat(exception).isInstanceOf(UnknownHostException.class);
     }
 }
