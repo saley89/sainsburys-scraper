@@ -14,7 +14,6 @@ import static org.assertj.core.api.Java6Assertions.assertThat;
 
 public class ProductFactoryTest {
 
-    private ProductFactory productFactory;
     private Product product;
 
     @Before
@@ -25,27 +24,27 @@ public class ProductFactoryTest {
         Element productData = Jsoup.parse(products, "UTF-8", "http://scraper.com").select("div .product").get(0);
         Document productInfoData = Jsoup.parse(product1, "UTF-8", "http://scraper.com/product1-url");
 
-        productFactory = new ProductFactory();
+        ProductFactory productFactory = new ProductFactory();
         product = productFactory.create(productData, productInfoData);
     }
 
     @Test
-    public void shouldReturnProductsWithTitle() {
+    public void shouldReturnProductWithTitle() {
         assertThat(product.getTitle()).isEqualTo("Product 1");
     }
 
     @Test
-    public void shouldReturnProductsWithUnitPrice() {
+    public void shouldReturnProductWithUnitPrice() {
         assertThat(product.unitPrice()).isEqualTo(9.99);
     }
 
     @Test
-    public void shouldReturnProductsWithKcalPer100g() {
+    public void shouldReturnProductWithKcalPer100g() {
         assertThat(product.kcalPer100g()).isEqualTo(33);
     }
 
     @Test
-    public void shouldReturnProductsWithDescription() {
+    public void shouldReturnProductWithDescription() {
         assertThat(product.getDescription()).isEqualTo("by Sainsbury's product 1 description");
     }
 }

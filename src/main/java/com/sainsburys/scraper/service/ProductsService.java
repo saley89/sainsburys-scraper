@@ -39,8 +39,8 @@ public class ProductsService {
 
     private List<Product> parseData(Elements allProducts) {
         return allProducts.stream()
-                .filter(e -> !isCrossSell(e))
                 .map(productData -> {
+                    removeCrossSellItems(productData);
                     String productInfoUrl = productData.select("div .productInfo").select("a").first().attr("abs:href");
                     Document productInfo = getDocument(productInfoUrl);
                     return productFactory.create(productData, productInfo);
@@ -48,7 +48,7 @@ public class ProductsService {
                 .collect(Collectors.toList());
     }
 
-    private boolean isCrossSell(Element data) {
-        return data.hasClass("hasCrossSell");
+    private void removeCrossSellItems(Element data) {
+        data.select(".crossSell").remove();
     }
 }
