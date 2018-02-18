@@ -1,0 +1,8 @@
+# Folders
+.idea/
+.gradle/
+build/
+out/
+
+# Files
+*.bat
