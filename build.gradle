@@ -2,11 +2,21 @@ group 'com.sainsburys'
 version '1.0'
 
 apply plugin: 'java'
+apply plugin: 'com.github.johnrengelman.shadow'
 
 sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
+}
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.2'
+    }
 }
 
 jar {
@@ -19,6 +29,8 @@ jar {
 
 dependencies {
     compile group: 'org.jsoup', name: 'jsoup', version: '1.11.2'
+    compile group: 'com.beust', name: 'jcommander', version: '1.72'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.4'
 
     testCompile group: 'junit', name: 'junit', version: '4.12'
     testCompile group: 'org.assertj', name: 'assertj-core', version: '3.9.0'
@@ -27,4 +39,4 @@ dependencies {
     testCompile group: 'org.powermock', name: 'powermock-module-junit4', version: '2.0.0-beta.5'
 }
 
-check.dependsOn(jar)
+check.dependsOn(shadowJar)

@@ -1,6 +1,7 @@
-package com.sainsburys.scraper.data;
+package com.sainsburys.scraper.service;
 
 import com.sainsburys.scraper.client.ScraperClient;
+import com.sainsburys.scraper.domain.Product;
 import com.sainsburys.scraper.exceptions.ScraperException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -49,9 +50,9 @@ public class ProductsServiceTest {
     }
 
     @Test
-    public void shouldReturnListOfProducts() {
+    public void shouldReturnListOfFilteredProducts() {
         List<Product> products = service.getProducts(PRODUCTS_URL);
-        assertThat(products).isNotEmpty();
+        assertThat(products.size()).isEqualTo(2);
         assertThat(products.get(0)).isInstanceOf(Product.class);
     }
 
@@ -67,40 +68,13 @@ public class ProductsServiceTest {
     }
 
     @Test
-    public void shouldReturnProductsWithTitle() {
-        List<Product> products = service.getProducts(PRODUCTS_URL);
-        assertThat(products.get(0).getTitle()).isEqualTo("Product 1");
-        assertThat(products.get(1).getTitle()).isEqualTo("Product 2");
-    }
-
-    @Test
-    public void shouldReturnProductsWithPricePerUnit() {
-        List<Product> products = service.getProducts(PRODUCTS_URL);
-        assertThat(products.get(0).getPricePerUnit()).isEqualTo(9.99);
-        assertThat(products.get(1).getPricePerUnit()).isEqualTo(2.49);
-    }
-
-    @Test
-    public void shouldReturnProductsWithPricePerMeasure() {
-        List<Product> products = service.getProducts(PRODUCTS_URL);
-        assertThat(products.get(0).getPricePerMeasure()).isEqualTo(14.99);
-        assertThat(products.get(1).getPricePerMeasure()).isEqualTo(7.49);
-    }
-
-    @Test
-    public void shouldReturnProductsWithDescription() {
-        List<Product> products = service.getProducts(PRODUCTS_URL);
-        assertThat(products.get(0).getDescription()).isEqualTo("by Sainsbury's product 1 description");
-        assertThat(products.get(1).getDescription()).isEqualTo("by Sainsbury's product 2 description");
-    }
-
-    @Test
     public void shouldReturnEmptyStringIfUnableToGetDescriptionFromProductInfoPage() throws IOException {
         when(scraperClient.getDocument(PRODUCT1_URL)).thenThrow(new UnknownHostException(PRODUCTS_URL));
-        when(scraperClient.getDocument(PRODUCT2_URL)).thenThrow(new UnknownHostException(PRODUCTS_URL));
 
-        List<Product> products = service.getProducts(PRODUCTS_URL);
-        assertThat(products.get(0).getDescription()).isEqualTo("");
-        assertThat(products.get(1).getDescription()).isEqualTo("");
+        Throwable exception = catchThrowable(() -> service.getProducts(PRODUCTS_URL));
+
+        assertThat(exception).isNotNull();
+        assertThat(exception).isInstanceOf(ScraperException.class);
+        assertThat(exception.getMessage()).isEqualTo("Unable to retrieve product data - java.net.UnknownHostException: http://scraper.com/");
     }
 }

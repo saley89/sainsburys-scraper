@@ -8,16 +8,18 @@ console output.
 
 Scraper utility assumes the following dependencies installed on the system.
 
-- Java 1.8
+- Java 1.8 JDK
 
 ## Build/Test
 
 Scraper uses Gradle to control its build and test process. It follows the standard tasks provided
 by many Gradle projects such as:
 
-Build the JAR
+Build the JAR. Scraper utilises the [ShadowJar](http://imperceptiblethoughts.com/shadow/) plugin to build 
+a "fat" JAR containing all the dependencies required to run the application.
+
 ```
-$ ./gradlew clean jar
+$ ./gradlew clean shadowJar
 ```
 
 Run tests
@@ -29,5 +31,15 @@ $ ./gradlew clean check
 
 Execute the application 
 ```
-java -jar build/libs/scraper-1.0.jar
+java -jar build/libs/scraper-1.0-all.jar
+```
+
+Scrape a different url
+```
+java -jar build/libs/scraper-1.0-all.jar --url http://some-url.com
+```
+
+View all parameters
+```
+java -jar build/libs/scraper-1.0-all.jar --help
 ```
