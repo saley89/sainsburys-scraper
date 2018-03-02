@@ -1,18 +1,20 @@
 package com.sainsburys.scraper.factory.products;
 
 import com.sainsburys.scraper.domain.Product;
+import com.sainsburys.scraper.factory.ScrapeData;
+import com.sainsburys.scraper.factory.ScrapeFactory;
 import org.jsoup.nodes.Element;
 
 import java.util.Optional;
 
-public class ProductFactory  {
+public class ProductFactory implements ScrapeFactory {
 
-    public Product create(Element productData, Element productInfoData) {
+    public Product create(ScrapeData productData) {
         return new Product.Builder()
-                .title(getTitle(productData))
-                .unitPrice(getUnitPrice(productData))
-                .kcalPer100g(getKcalPer100g(productInfoData))
-                .description(getDescription(productInfoData))
+                .title(getTitle(productData.getInfoData()))
+                .unitPrice(getUnitPrice(productData.getInfoData()))
+                .kcalPer100g(getKcalPer100g(productData.getDescriptionData()))
+                .description(getDescription(productData.getDescriptionData()))
                 .build();
     }
 

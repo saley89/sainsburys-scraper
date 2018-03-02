@@ -25,7 +25,7 @@ public class ProductFactoryTest {
         Document productInfoData = Jsoup.parse(product1, "UTF-8", "http://scraper.com/product1-url");
 
         ProductFactory productFactory = new ProductFactory();
-        product = productFactory.create(productData, productInfoData);
+        product = productFactory.create(new ProductData(productData, productInfoData));
     }
 
     @Test

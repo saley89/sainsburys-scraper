@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @JsonInclude(Include.NON_NULL)
-public class Product {
+public class Product implements Item {
 
     private final String title;
     private final Double unitPrice;

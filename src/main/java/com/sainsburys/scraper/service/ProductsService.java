@@ -3,6 +3,7 @@ package com.sainsburys.scraper.service;
 import com.sainsburys.scraper.client.ScraperClient;
 import com.sainsburys.scraper.domain.Product;
 import com.sainsburys.scraper.exceptions.ScraperException;
+import com.sainsburys.scraper.factory.products.ProductData;
 import com.sainsburys.scraper.factory.products.ProductFactory;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -43,7 +44,7 @@ public class ProductsService {
                     removeCrossSellItems(productData);
                     String productInfoUrl = productData.select("div .productInfo").select("a").first().attr("abs:href");
                     Document productInfo = getDocument(productInfoUrl);
-                    return productFactory.create(productData, productInfo);
+                    return productFactory.create(new ProductData(productData, productInfo));
                 })
                 .collect(Collectors.toList());
     }
