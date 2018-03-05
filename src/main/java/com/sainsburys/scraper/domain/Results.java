@@ -6,12 +6,12 @@ import java.util.List;
 
 public class Results {
 
-    public List<Product> results;
+    public List<Item> results;
 
     @JsonSerialize(using=PriceJsonSerializer.class)
     public Double total;
 
-    public Results(List<Product> results, Double total) {
+    public Results(List<Item> results, Double total) {
         this.results = results;
         this.total = total;
     }

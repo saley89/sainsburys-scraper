@@ -15,7 +15,7 @@ public class Product implements Item {
 
     @JsonProperty("unit_price")
     @JsonSerialize(using=PriceJsonSerializer.class)
-    public Double unitPrice() {
+    public Double getUnitPrice() {
         return unitPrice;
     }
 

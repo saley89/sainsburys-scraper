@@ -1,7 +1,7 @@
 package com.sainsburys.scraper.service;
 
 import com.sainsburys.scraper.client.ScraperClient;
-import com.sainsburys.scraper.domain.Product;
+import com.sainsburys.scraper.domain.Item;
 import com.sainsburys.scraper.exceptions.ScraperException;
 import com.sainsburys.scraper.factory.products.ProductData;
 import com.sainsburys.scraper.factory.products.ProductFactory;
@@ -23,7 +23,7 @@ public class ProductsService {
         this.client = client;
     }
 
-    public List<Product> getProducts(String url) {
+    public List<Item> getProducts(String url) {
         Document document = getDocument(url);
         Elements productData = document.select("div .product");
         return parseData(productData);
@@ -38,7 +38,7 @@ public class ProductsService {
         }
     }
 
-    private List<Product> parseData(Elements allProducts) {
+    private List<Item> parseData(Elements allProducts) {
         return allProducts.stream()
                 .map(productData -> {
                     removeCrossSellItems(productData);

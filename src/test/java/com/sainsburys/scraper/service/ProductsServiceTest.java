@@ -1,6 +1,7 @@
 package com.sainsburys.scraper.service;
 
 import com.sainsburys.scraper.client.ScraperClient;
+import com.sainsburys.scraper.domain.Item;
 import com.sainsburys.scraper.domain.Product;
 import com.sainsburys.scraper.exceptions.ScraperException;
 import org.jsoup.Jsoup;
@@ -51,7 +52,7 @@ public class ProductsServiceTest {
 
     @Test
     public void shouldReturnListOfFilteredProducts() {
-        List<Product> products = service.getProducts(PRODUCTS_URL);
+        List<Item> products = service.getProducts(PRODUCTS_URL);
         assertThat(products.size()).isEqualTo(2);
         assertThat(products.get(0)).isInstanceOf(Product.class);
     }

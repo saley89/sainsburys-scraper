@@ -35,7 +35,7 @@ public class ProductFactoryTest {
 
     @Test
     public void shouldReturnProductWithUnitPrice() {
-        assertThat(product.unitPrice()).isEqualTo(9.99);
+        assertThat(product.getUnitPrice()).isEqualTo(9.99);
     }
 
     @Test

@@ -1,7 +1,7 @@
 package com.sainsburys.scraper;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sainsburys.scraper.domain.Product;
+import com.sainsburys.scraper.domain.Item;
 import com.sainsburys.scraper.domain.Results;
 import com.sainsburys.scraper.service.ProductsService;
 
@@ -20,9 +20,9 @@ public class ScraperController {
     }
 
     public String scrapeProducts(String url) {
-        List<Product> products = productsService.getProducts(url);
+        List<Item> products = productsService.getProducts(url);
         Double total = products.stream()
-                .mapToDouble(Product::unitPrice)
+                .mapToDouble(Item::getUnitPrice)
                 .sum();
         Results results = new Results(products, total);
         try {
